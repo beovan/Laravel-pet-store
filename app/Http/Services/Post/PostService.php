@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PostService
 {
-    const LIMIT = 5;
+    const LIMIT = 2;
     public function insert($request)
     {
         try {
@@ -33,10 +33,14 @@ class PostService
 
    
 
-    public function get()
+    public function get($page=null)
     {
     
-        return Post::orderByDesc('id')->paginate(15);
+        return Post::orderByDesc('id')
+        ->when($page != null, function ($query) use ($page) {
+            $query->offset($page * self::LIMIT);
+        })
+        ->limit(self::LIMIT);
     }
 
     public function update($request, $post)
@@ -72,6 +76,12 @@ class PostService
     {
         return Post::select( 'id','title','content','thumb')
         ->orderbyDesc('id')
+        ->limit(self::LIMIT)
         ->get();
+    }
+    public function show_detail($id)
+    {
+        return Post::where('id', $id)
+            ->firstOrFail();
     }
 }

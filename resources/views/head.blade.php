@@ -45,6 +45,7 @@
     .text-center{
         font-size: 1rem;
     }
+   
 
 </style>
 

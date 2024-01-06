@@ -12,11 +12,11 @@
 			<div class="row">
 				<div class="col-md-8 col-lg-9 p-b-80">
 					<div class="p-r-45 p-r-0-lg">
-						@foreach ($post as $key => $post_id)
+						@foreach ($posts as $key => $post)
 								<!-- item blog -->
 								<div class="p-b-63">
-									<a href="/bai-viet/{{ $post_id->id }}-{{ Str::slug($post_id->title, '-')}}.html" class="hov-img0 how-pos5-parent">
-										<img src="{{$post_id->thumb}}" alt="IMG-BLOG">
+									<a href="/bai-viet/{{ $post->id }}-{{ Str::slug($post->title, '-')}}.html" class="hov-img0 how-pos5-parent">
+										<img src="{{$post->thumb}}" alt="IMG-BLOG">
 		
 										<div class="flex-col-c-m size-123 bg9 how-pos5">
 											<span class="ltext-107 cl2 txt-center">
@@ -31,14 +31,17 @@
 		
 									<div class="p-t-32">
 										<h4 class="p-b-15">
-											<a href="{{ $post_id->id }}-{{ Str::slug($post_id->title, '-')}}.html" class="ltext-108 cl2 hov-cl1 trans-04">
-												{{$post_id->title}}
+											<a href="/bai-viet/{{ $post->id }}-{{ Str::slug($post->title, '-')}}.html" class="ltext-108 cl2 hov-cl1 trans-04">
+												{{$post->title}}
 											</a>
 										</h4>
-		
-										<p class="stext-117 cl6">
-										{!!$post_id->content!!}
-										</p>
+										<span  class="d-inline-block text-truncate" 
+										style="max-height: 150px;
+											width: 100% ;
+										">
+											{!!$post->content!!}
+										</span>
+										
 		
 										<div class="flex-w flex-sb-m p-t-18">
 											<span class="flex-w flex-m stext-111 cl2 p-r-30 m-tb-10">
@@ -57,7 +60,7 @@
 												</span>
 											</span>
 		
-											<a href="{{ $post_id->id }}-{{ Str::slug($post_id->title, '-')}}.html" class="stext-101 cl2 hov-cl1 trans-04 m-tb-10">
+											<a href="{{ $post->id }}-{{ Str::slug($post->title, '-')}}.html" class="stext-101 cl2 hov-cl1 trans-04 m-tb-10">
 												Continue Reading
 		
 												<i class="fa fa-long-arrow-right m-l-9"></i>
@@ -127,7 +130,7 @@
 										</a>
 
 										<span class="stext-116 cl6 p-t-20">
-											{{$product->price}} đ
+											{!!  \App\Helpers\Helper::price($product->price, $product->price_sale)  !!}
 										</span>
 									</div>
 								</li>

@@ -4,7 +4,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th style="width: 50px">ID</th>
                 <th>Tiêu đề</th>
                 <th>Nội dung </th>
                 <th>Ảnh bài viết</th>
@@ -15,7 +14,6 @@
         <tbody>
             @foreach ($posts as $key => $post)
                 <tr>
-                    <td  class="d-inline-block text-truncate" style="max-width: 150px;">{{ $post->id }}</td>
                     <td>{{ $post->title }}</td>
                     <td class="d-inline-block text-truncate" style="max-width: 150px;">
                         {{ $post->content }}</td>

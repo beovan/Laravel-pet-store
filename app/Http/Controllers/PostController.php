@@ -12,8 +12,6 @@ class PostController extends Controller
     protected  $postService;
     protected $menu;
     protected $productService;
-    //Giới hạn hiện thị sản phẩm 
-    const LIMIT = 5;
     public function __construct(PostService $postService,MenuService $menu,ProductService $productService)
     {
         $this->postService = $postService;
@@ -24,11 +22,24 @@ class PostController extends Controller
     {
         $menus = $this->menu->show();
         $products = $this->productService->getSidebar();
-
+        $posts = $this->postService->show();
 
         return view('post.post',[
             'title' => 'Bài viết',
-            "post" => $this->postService->show(),
+            "posts" =>  $posts,
+            'menus' => $menus,
+            'products' => $products,
+        ]);
+    }
+    public function view_detail($id = '')
+    {
+        $menus = $this->menu->show();
+        $products = $this->productService->getSidebar();
+        $post = $this->postService->show_detail($id);
+
+        return view('post.detail',[
+            'title' => 'Bài viết',
+            "post" =>  $post,
             'menus' => $menus,
             'products' => $products,
         ]);

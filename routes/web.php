@@ -138,6 +138,6 @@ Route::middleware(['auth'])->group(function () {
 });
 //post
 Route::get('/post', [ControllersPostController::class, 'index'])->name('post');
-Route::get('/post/{id}-{slug}.html', [App\Http\Controllers\PostController::class, 'index']);
+Route::get('bai-viet/{id}-{slug}.html', [App\Http\Controllers\PostController::class, 'view_detail']);
 
 
