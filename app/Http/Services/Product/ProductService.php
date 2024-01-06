@@ -9,7 +9,7 @@ use App\Models\Product;
 class ProductService
 {
     const LIMIT = 16;
-
+    const limit_sidebar = 3;
     public function get($page = null)
     {
         return Product::select('id', 'name', 'price', 'price_sale', 'thumb')
@@ -36,6 +36,17 @@ class ProductService
             ->where('id', '!=', $id)
             ->orderByDesc('id')
             ->limit(8)
+            ->get();
+    }
+    public function getSidebar($page = null)
+    {
+        
+        return Product::select('id', 'name', 'price', 'price_sale', 'thumb')
+            ->orderByDesc('id')
+            ->when($page != null, function ($query) use ($page) {
+                $query->offset($page * self::limit_sidebar);
+            })
+            ->limit(self::limit_sidebar)
             ->get();
     }
 }

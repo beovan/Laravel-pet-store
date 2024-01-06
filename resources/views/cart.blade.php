@@ -13,7 +13,6 @@
         <div class="header-cart-content flex-w js-pscroll">
             @php $sumPriceCart = 0; @endphp
             <ul class="header-cart-wrapitem w-full">
-                @if(isset($product))
                 @if (count($products) > 0)
                     @foreach($products as $key => $product)
                         @php
@@ -36,7 +35,6 @@
                             </div>
                         </li>
                     @endforeach
-                @endif
                 @endif
             </ul>
 

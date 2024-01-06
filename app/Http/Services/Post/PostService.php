@@ -11,11 +11,15 @@ use Illuminate\Support\Facades\Storage;
 
 class PostService
 {
+    const LIMIT = 5;
     public function insert($request)
     {
         try {
-            #$request->except('_token');
-            Post::create($request->input());
+            Post::create([
+                'title' =>(string) $request->input('title'),
+                'content' =>(string) $request->input('content'),
+                'thumb' =>(string) $request->input('thumb')
+            ]);
             Session::flash('success', 'Thêm bài viết mới thành công');
         } catch (\Exception $err) {
             Session::flash('error', 'Lỗi thêm bài viết');
@@ -27,8 +31,11 @@ class PostService
         return true;
     }
 
+   
+
     public function get()
     {
+    
         return Post::orderByDesc('id')->paginate(15);
     }
 
@@ -52,6 +59,8 @@ class PostService
     {
         $post = Post::where('id', $request->input('id'))->first();
         if ($post) {
+            $path = str_replace('storage', 'public', $post->thumb);
+            Storage::delete($path);
             $post->delete();
             return true;
         }
@@ -61,6 +70,8 @@ class PostService
 
     public function show()
     {
-        return Post::orderByDesc('sort_by')->get();
+        return Post::select( 'id','title','content','thumb')
+        ->orderbyDesc('id')
+        ->get();
     }
 }

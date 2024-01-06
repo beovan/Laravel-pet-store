@@ -25,10 +25,9 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|max:255',
+            'title' => 'required|max:255|min:5',
             'content' => 'required',
-            'img' => 'required',
-            'status' => 'required',
+            'thumb' => 'required',
         ]);
 
         $this->post->insert($request);
@@ -47,8 +46,8 @@ class PostController extends Controller
     public function show(Post $post)
     {
         return view('admin.post.edit', [
-            'title' => 'Chỉnh Sửa Slider',
-            'posts' => $post
+            'title' => 'Chỉnh Sửa bài viết',
+            'post' => $post
         ]);
     }
 
@@ -57,8 +56,7 @@ class PostController extends Controller
         $this->validate($request, [
             'title' => 'required|max:255',
             'content' => 'required',
-            'img' => 'required',
-            'status' => 'required',
+            'thumb' => 'required',
         ]);
 
         $result = $this->post->update($request, $post);

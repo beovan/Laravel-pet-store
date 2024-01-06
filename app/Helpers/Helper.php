@@ -14,7 +14,6 @@ class Helper
 
                 $html .= '
             <tr>
-                <td>' . $menu->id . '</td>
                 <td>' . $char . $menu->name . '</td>
                 <td>' . self::active($menu->active) . '</td>
                 <td>' . $menu->updated_at . '</td>

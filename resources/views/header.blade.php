@@ -27,6 +27,9 @@
                         <li>
                             <a href="{{ route('contact') }}">Liên Hệ</a>
                         </li>
+                        <li>
+                            <a href="{{route('post')}}">Bài viết</a>
+                        </li>
                     </ul>
                 </div>
 

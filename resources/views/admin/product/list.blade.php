@@ -4,7 +4,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th style="width: 50px">ID</th>
             <th>Tên Sản Phẩm</th>
             <th>Danh Mục</th>
             <th>Giá Gốc</th>
@@ -17,7 +16,6 @@
         <tbody>
         @foreach($products as $key => $product)
             <tr>
-                <td>{{ $product->id }}</td>
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->menu->name }}</td>
                 <td>{{ $product->price }}</td>

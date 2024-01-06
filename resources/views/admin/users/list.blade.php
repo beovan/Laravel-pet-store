@@ -4,7 +4,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th style="width: 50px">ID</th>
             <th>User</th>
             <th>Email</th>
             <th>level</th>
@@ -15,7 +14,6 @@
         <tbody>
         @foreach($users as $key => $user)
             <tr>
-                <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
