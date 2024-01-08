@@ -33,14 +33,15 @@ class PostService
 
    
 
-    public function get($page=null)
+    public function get()
     {
     
-        return Post::orderByDesc('id')
-        ->when($page != null, function ($query) use ($page) {
-            $query->offset($page * self::LIMIT);
-        })
-        ->limit(self::LIMIT);
+        return Post::orderByDesc('id')->paginate(4);
+    }
+    public function get_page()
+    {
+    
+        return Post::orderByDesc('id')->paginate(3);
     }
 
     public function update($request, $post)

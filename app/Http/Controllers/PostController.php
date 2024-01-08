@@ -22,8 +22,7 @@ class PostController extends Controller
     {
         $menus = $this->menu->show();
         $products = $this->productService->getSidebar();
-        $posts = $this->postService->show();
-
+        $posts = $this->postService->get_page();
         return view('post.post',[
             'title' => 'Bài viết',
             "posts" =>  $posts,

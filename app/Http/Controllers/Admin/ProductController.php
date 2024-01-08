@@ -17,11 +17,15 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $search_param = $request->query('q');
+        $products = $this->productService->get($search_param);
+    
         return view('admin.product.list', [
             'title' => 'Danh Sách Sản Phẩm',
-            'products' => $this->productService->get()
+            'products' => $products,
+            'search_param' => $search_param,
         ]);
     }
 
