@@ -35,11 +35,15 @@ class PostController extends Controller
         return redirect()->back();
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $search_param = $request->query('q');
+        $posts = $this->post->get($search_param);
+        
         return view('admin.post.list', [
             'title' => 'Danh Sách bài viết Mới Nhất',
-            'posts' => $this->post->get()
+            'posts' => $posts,
+            'search_param'=> $search_param
         ]);
     }
 

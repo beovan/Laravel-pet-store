@@ -9,13 +9,18 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(20);
-
+        $users_query = User::query();
+        $search_param = $request->query('q');
+        if ($search_param) {
+            $users_query = User::search($search_param);
+        }
+        $users = $users_query->paginate(5);
         return view('admin.users.list', [
             'title' => 'Danh sách người dùng',
-            'users' => $users
+            'users' => $users,
+            'search_param' => $search_param
         ]);
     }
     public function create()
@@ -117,6 +122,7 @@ class UserController extends Controller
 
     public function show($id)
     {
+        
         $users = User::findOrFail($id);
         return view('admin.users.list',[
             'users' => $users

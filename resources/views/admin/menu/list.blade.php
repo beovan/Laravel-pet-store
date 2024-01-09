@@ -5,12 +5,11 @@
 @section('content')
  <!-- Main content -->
  <section class="content">
-    <div class="container-fluid">
-        <div class="row">
+   
             <div class="col-md-8 offset-md-2">
-                <form action="simple-results.html">
+                <form action="">
                     <div class="input-group">
-                        <input type="search" class="form-control form-control-lg" placeholder="Type your keywords here">
+                        <input type="search" name="q" class="form-control form-control-lg" placeholder="Type your keywords here" value="{{$search_param}}">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-lg btn-default">
                                 <i class="fa fa-search"></i>
@@ -19,8 +18,6 @@
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
 </section>
     <table class="table">
         <thead>
@@ -35,6 +32,7 @@
         {!! \App\Helpers\Helper::menu($menus) !!}
         </tbody>
     </table>
+    {!! $menus->links() !!}
 @endsection
 
 

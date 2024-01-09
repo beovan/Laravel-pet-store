@@ -35,7 +35,6 @@ class PostController extends Controller
         $menus = $this->menu->show();
         $products = $this->productService->getSidebar();
         $post = $this->postService->show_detail($id);
-
         return view('post.detail',[
             'title' => 'Bài viết',
             "post" =>  $post,

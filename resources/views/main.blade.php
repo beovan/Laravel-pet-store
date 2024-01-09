@@ -8,7 +8,6 @@
 
 <!-- Header -->
 @include('header')
-
 <!-- Cart -->
 @include('cart')
 

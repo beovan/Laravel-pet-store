@@ -60,7 +60,7 @@
 												</span>
 											</span>
 		
-											<a href="{{ $post->id }}-{{ Str::slug($post->title, '-')}}.html" class="stext-101 cl2 hov-cl1 trans-04 m-tb-10">
+											<a href="/bai-viet/{{ $post->id }}-{{ Str::slug($post->title, '-')}}.html" class="stext-101 cl2 hov-cl1 trans-04 m-tb-10">
 												Continue Reading
 		
 												<i class="fa fa-long-arrow-right m-l-9"></i>

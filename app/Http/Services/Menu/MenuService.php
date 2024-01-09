@@ -21,9 +21,15 @@ class MenuService
             ->orderbyDesc('id')
             ->get();
     }
-    public function getAll()
+    public function getAll($search_param = null)
     {
-        return Menu::orderBy('id')->paginate(20);
+        $query = Menu::orderBy('id');
+
+        if ($search_param) {
+            $query = Menu::search($search_param);
+        }
+        
+        return $query->paginate(5);
     }
     public function  create($request)
     {

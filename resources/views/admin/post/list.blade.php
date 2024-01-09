@@ -1,6 +1,18 @@
 @extends('admin.main')
 
 @section('content')
+<div class="col-md-8 offset-md-2">
+    <form action="">
+        <div class="input-group">
+            <input type="search" name="q" class="form-control form-control-lg" placeholder="Type your keywords here" value="{{$search_param}}">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-lg btn-default">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
     <table class="table">
         <thead>
             <tr>

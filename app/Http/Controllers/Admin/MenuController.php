@@ -32,10 +32,13 @@ class MenuController extends Controller
         return redirect()->back();
     }
 
-    public  function index(){
+    public  function index(Request $request){
+        $search_param = $request->query('q');
+        $menus = $this->menuService->getAll($search_param);
         return view('admin.menu.list',[
             'title' => 'Danh sách Danh mục mới nhất',
-            'menus' => $this->menuService->getAll()
+            'menus' => $menus,
+            'search_param' =>$search_param
         ]);
     }
 

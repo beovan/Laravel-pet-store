@@ -33,10 +33,15 @@ class PostService
 
    
 
-    public function get()
+    public function get($search_param = null)
     {
-    
-        return Post::orderByDesc('id')->paginate(4);
+        $query = Post::orderByDesc('id');
+
+        if ($search_param) {
+            $query = Post::search($search_param);
+        }
+
+        return $query->paginate(4);
     }
     public function get_page()
     {
