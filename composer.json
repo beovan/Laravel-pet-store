@@ -11,7 +11,8 @@
         "laravel/sanctum": "^3.2",
         "laravel/scout": "^10.6",
         "laravel/tinker": "^2.8",
-        "predis/predis": "^2.2"
+        "predis/predis": "^2.2",
+        "weidner/goutte": "^2.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

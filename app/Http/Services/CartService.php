@@ -104,13 +104,13 @@ class CartService
             if (is_null($carts)) {
                 return false;
             }
-            $customer = Customer::create([
-                'name' => $request->input('name'),
-                'phone' => $request->input('phone'),
-                'address' => $request->input('address'),
-                'email' => $request->input('email'),
-                'content' => $request->input('content')
-            ]);
+            // $customer = Customer::create([
+            //     'name' => $request->input('name'),
+            //     'phone' => $request->input('phone'),
+            //     'address' => $request->input('address'),
+            //     'email' => $request->input('email'),
+            //     'content' => $request->input('content')
+            // ]);
 
 
 
@@ -124,7 +124,7 @@ class CartService
             $phone = $request->input('phone');
             $content = $request->input('content');
 
-            SendMail::dispatch($email, $name, $phone, $content)->delay(now()->addSeconds(2));
+            // SendMail::dispatch($email, $name, $phone, $content)->delay(now()->addSeconds(2));
 
             Session::forget('carts');
             return true;

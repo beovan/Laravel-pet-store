@@ -1,4 +1,3 @@
-<!-- Header -->
 <header class="header-v2">
     @php $menusHtml = \App\Helpers\Helper::menus($menus); @endphp
 
@@ -29,6 +28,9 @@
                         </li>
                         <li>
                             <a href="{{route('post')}}">Bài viết</a>
+                        </li>
+                        <li>
+                            <a href="/crawl-data">Hàng mới về</a>
                         </li>
                     </ul>
                 </div>

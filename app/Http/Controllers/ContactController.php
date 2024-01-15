@@ -21,7 +21,6 @@ class ContactController extends Controller
         return view('contact.contact',[
             'title' => 'Liên hệ',
             'products' => $products,
-            
         ]);
     }
 

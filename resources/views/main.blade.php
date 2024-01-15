@@ -9,7 +9,13 @@
 <!-- Header -->
 @include('header')
 <!-- Cart -->
+{{-- Remember to 
+     $products = $this->cartService->getProduct();
+    rerun in view 
+     'products' => $products,
+    --}}
 @include('cart')
+{{-- @dd('hello') --}}
 
 @yield('content')
 
