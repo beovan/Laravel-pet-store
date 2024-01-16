@@ -104,13 +104,16 @@ class CartService
             if (is_null($carts)) {
                 return false;
             }
-            // $customer = Customer::create([
-            //     'name' => $request->input('name'),
-            //     'phone' => $request->input('phone'),
-            //     'address' => $request->input('address'),
-            //     'email' => $request->input('email'),
-            //     'content' => $request->input('content')
-            // ]);
+            // dd($request->input());
+            $customer = Customer::create([
+                'name' => $request->input('name'),
+                'phone' => $request->input('phone'),
+                'address' => $request->input('address'),
+                'email' => $request->input('email'),
+                'content' => $request->input('content'),
+                'user_id' => $request->input('user_id')
+
+            ]);
 
 
 
@@ -119,10 +122,10 @@ class CartService
 
             DB::commit();
             Session::flash('success', 'Đặt Hàng Thành Công');
-            $email = $request->input('email');
-            $name = $request->input('name');
-            $phone = $request->input('phone');
-            $content = $request->input('content');
+            // $email = $request->input('email');
+            // $name = $request->input('name');
+            // $phone = $request->input('phone');
+            // $content = $request->input('content');
 
             // SendMail::dispatch($email, $name, $phone, $content)->delay(now()->addSeconds(2));
 
@@ -153,7 +156,7 @@ class CartService
         $order->save();
 
         $totalAmount = 0;
-        $cartData = [];
+
 
         // Create and store multiple order items (Cart) without removing them from the cart
         foreach ($products as $product) {
