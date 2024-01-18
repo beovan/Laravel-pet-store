@@ -1,7 +1,7 @@
 <header class="header-v2">
     @php $menusHtml = \App\Helpers\Helper::menus($menus); @endphp
 
-        <!-- Header desktop -->
+    <!-- Header desktop -->
     <div class="container-menu-desktop">
 
         <div class="wrap-menu-desktop ">
@@ -27,7 +27,7 @@
                             <a href="{{ route('contact') }}">Liên Hệ</a>
                         </li>
                         <li>
-                            <a href="{{route('post')}}">Bài viết</a>
+                            <a href="{{ route('post') }}">Bài viết</a>
                         </li>
                         <li>
                             <a href="/crawl-data">Hàng mới về</a>
@@ -44,91 +44,108 @@
 
 
 
-                        <!-- Button trigger modal -->
-                        @if(Auth::check())
+                    <!-- Button trigger modal -->
+                    @if (Auth::check())
                         <li class="nav-item dropdown">
                             <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                                 {{ Auth::user()->name }}
                             </a>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+                                style="left: inherit; right: 0px;">
                                 <a class="dropdown-item" href="{{ route('profile.show') }}">
                                     Profile
                                 </a>
 
                                 <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Logout
                                 </a>
                                 <span class="float-right text-muted text-sm">
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                              style="display: none;">
-                                            @csrf
-                                        </form>
-                                    </span>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
+                                </span>
 
                             </div>
                         </li>
-                        @else
+                    @else
                         <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 ">
-                        <button type="button" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11" data-toggle="modal" data-target="#exampleModal">
-                            <i class="zmdi zmdi-account"></i>
-                        </button>
+                            <button type="button" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11"
+                                data-toggle="modal" data-target="#exampleModal">
+                                <i class="zmdi zmdi-account"></i>
+                            </button>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="10" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">
-                                            <div class="login-logo">
-                                                Sign in
-                                            </div>
-                                        </h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                            <!-- /.login-logo -->
-                                                <div class="card-body login-card-body">
-                                                                <p class="login-box-msg"> <a href="#"><b> <img src="/template/images/icons/1.png" alt="IMG-LOGO"></b></a></p>
-                                                                @include('admin.alert')
-                                                                <form action="/admin/users/login/store" method="post">
-                                                                    <div class="input-group mb-3">
-                                                                        <input type="email" name="email" class="form-control" placeholder="Email">
-                                                                        <div class="input-group-append">
-                                                                            <div class="input-group-text">
-                                                                    <span class="fa fa-envelope"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="input-group mb-3">
-                                                            <input type="password" name="password" class="form-control" placeholder="Password">
-                                                            <div class="input-group-append">
-                                                                <div class="input-group-text">
-                                                                    <span class="fa fa-lock"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <a href="/admin/users/register" class="text-center">Don't have an account. Register now!</a>
-                                                        </div>
-                                                        @csrf
-
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="10" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                <div class="login-logo">
+                                                    Sign in
                                                 </div>
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- /.login-logo -->
+                                            <div class="card-body login-card-body">
+                                                <p class="login-box-msg"> <a href="#"><b> <img
+                                                                src="/template/images/icons/1.png"
+                                                                alt="IMG-LOGO"></b></a></p>
+                                                @include('admin.alert')
+                                                <form action="/admin/users/login/store" method="post">
+                                                    <div class="input-group mb-3">
+                                                        <input type="email" name="email" class="form-control"
+                                                            placeholder="Email">
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <span class="fa fa-envelope"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group mb-3">
+                                                        <input type="password" name="password" class="form-control"
+                                                            placeholder="Password">
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <span class="fa fa-lock"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col"> <a href="/admin/users/register"
+                                                                class="text-center">Don't have an account. Register
+                                                                now!</a></div>
+                                                        <div class="w-100"></div>
+                                                        <div class="col">
+                                                            <a href="/password/reset" class="text-center">Forget
+                                                                passwords. Click here!</a>
+                                                        </div>
+
+                                                    </div>
+
+                                                    @csrf
+
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                                        </div>
+                                        </form>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                                    </div>
-                                    </form>
                                 </div>
                             </div>
-                        </div>
                         </div>
                     @endif
 
                     <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-                         data-notify="{{ !is_null(\Session::get('carts')) ? count(\Session::get('carts')) : 0 }}">
+                        data-notify="{{ !is_null(\Session::get('carts')) ? count(\Session::get('carts')) : 0 }}">
                         <i class="zmdi zmdi-shopping-cart"></i>
                     </div>
 
@@ -150,16 +167,17 @@
                 <i class="zmdi zmdi-search"></i>
             </div>
             <!-- Button trigger modal -->
-            @if(Auth::check())
-            <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
-                {{ Auth::user()->name }}
-            </div>
-            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                Logout
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
+            @if (Auth::check())
+                <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                    {{ Auth::user()->name }}
+                </div>
+                <a href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    Logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             @else
                 <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
 
@@ -167,7 +185,8 @@
                     <button id="myBtn2" class="myBtn"> <i class="zmdi zmdi-account"></i></button>
 
                     <!-- The Modal -->
-                    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -183,11 +202,13 @@
                                 <div class="modal-body">
                                     <!-- /.login-logo -->
                                     <div class="card-body login-card-body">
-                                        <p class="login-box-msg"> <a href="#"><b> <img src="/template/images/icons/1.png" alt="IMG-LOGO"></b></a></p>
+                                        <p class="login-box-msg"> <a href="#"><b> <img
+                                                        src="/template/images/icons/1.png" alt="IMG-LOGO"></b></a></p>
                                         @include('admin.alert')
                                         <form action="/admin/users/login/store" method="post">
                                             <div class="input-group mb-3">
-                                                <input type="email" name="email" class="form-control" placeholder="Email">
+                                                <input type="email" name="email" class="form-control"
+                                                    placeholder="Email">
                                                 <div class="input-group-append">
                                                     <div class="input-group-text">
                                                         <span class="fa fa-envelope"></span>
@@ -195,7 +216,8 @@
                                                 </div>
                                             </div>
                                             <div class="input-group mb-3">
-                                                <input type="password" name="password" class="form-control" placeholder="Password">
+                                                <input type="password" name="password" class="form-control"
+                                                    placeholder="Password">
                                                 <div class="input-group-append">
                                                     <div class="input-group-text">
                                                         <span class="fa fa-lock"></span>
@@ -203,9 +225,10 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <a href="/admin/users/register" class="text-center">Don't have an account. Register now!</a>
+                                                <a href="/admin/users/register" class="text-center">Don't have an
+                                                    account. Register now!</a>
                                             </div>
-                                        @csrf
+                                            @csrf
 
                                     </div>
                                     <div class="modal-footer">
@@ -220,16 +243,17 @@
 
                 </div>
             @endif
-            <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2">
+            <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
+                data-notify="2">
                 <i class="zmdi zmdi-shopping-cart"></i>
             </div>
         </div>
 
         <!-- Button show menu -->
         <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
-				<span class="hamburger-box">
-					<span class="hamburger-inner"></span>
-				</span>
+            <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+            </span>
         </div>
     </div>
 

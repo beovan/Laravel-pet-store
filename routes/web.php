@@ -7,29 +7,32 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\Users\LoginController;
 use App\Http\Controllers\Admin\Users\RegisterController;
-use App\Http\Controllers\CommnentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\Users\ForgotPasswordController;
 use App\Http\Controllers\CrawlDataController;
 use App\Http\Controllers\PostController as ControllersPostController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Services\Comment\CommentService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Display the registration form
-Route::get('register', [RegisterController::class, 'create'])->name('register.create');
+// // Display the registration form
+// Route::get('register', [RegisterController::class, 'create'])->name('register.create');
 
-// Process the registration form
-Route::post('register', [RegisterController::class, 'store'])->name('register.store');
-
+// // Process the registration form
+// Route::post('register', [RegisterController::class, 'store'])->name('register.store');
+// //
 /*
+
 |--------------------------------------------------------------------------
 | Web Routes
 	@@ -29,18 +17,11 @@
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Auth::routes();
 //login routes
 Route::get('admin/users/login', [LoginController::class, 'index'])->name('login');
 //chuyển sang trang admin
@@ -40,9 +43,14 @@ Route::get('admin/users/register', [RegisterController::class, 'index'])->name('
 // Process the registration form
 Route::post('admin/users/register/store', [RegisterController::class, 'store'])->name('register.store');
 
+//forgot password
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
 //logout routes
 Route::post('/logout',[LoginController::class,'logout'])->name('logout');
 //group lại
+
 //Middleware như là một cơ chế cho phép bạn tham gia vào
 // luồng xử lý request của một ứng dụng Larave
 Route::middleware(['auth'])->group(function () {
@@ -156,3 +164,8 @@ Route::post('/add-to-database', [CrawlDataController::class, 'addToDatabase']);
 
 
 
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
