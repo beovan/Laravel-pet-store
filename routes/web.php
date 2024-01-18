@@ -7,12 +7,14 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\Users\LoginController;
 use App\Http\Controllers\Admin\Users\RegisterController;
+use App\Http\Controllers\CommnentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CrawlDataController;
 use App\Http\Controllers\PostController as ControllersPostController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Services\Comment\CommentService;
 use Illuminate\Support\Facades\Route;
 
 // Display the registration form
@@ -141,10 +143,15 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/post', [ControllersPostController::class, 'index'])->name('post');
 Route::get('bai-viet/{id}-{slug}.html', [App\Http\Controllers\PostController::class, 'view_detail']);
 
+//comment 
+Route::post('/bai-viet/{id}-{slug}.html/add-comments', [CommentService::class, 'addComment']);
+
 //test crawl
 Route::get('crawl-data', [CrawlDataController::class, 'index']);
 Route::get('/products/{slug}', [CrawlDataController::class, 'detail']);
 Route::post('/add-to-database', [CrawlDataController::class, 'addToDatabase']);
+
+
 
 
 

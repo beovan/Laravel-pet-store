@@ -29,7 +29,7 @@ class CartController extends Controller
 
     public function show(Customer $customer)
     {
-        $carts = $this->cart->getProductForCart($customer);
+        // $carts = $this->cart->getProductForCart($customer);
         $orderItems = OrderItem::whereHas('order', function ($query) use ($customer) {
             $query->where('customer_id', $customer->id);
         })->get();
