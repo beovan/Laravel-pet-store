@@ -15,6 +15,7 @@
             <ul class="header-cart-wrapitem w-full">
                 @if (count($products) > 0)
                     @foreach($products as $key => $product)
+                    @if (isset($carts[$product->id])) <!-- Check if the product's ID exists in the cart session -->
                         @php
                             $price = \App\Helpers\Helper::price($product->price, $product->price_sale);
                             $sumPriceCart += $product->price_sale != 0 ? $product->price_sale : $product->price;
@@ -34,6 +35,7 @@
                                 </span>
                             </div>
                         </li>
+                        @endif
                     @endforeach
                 @endif
             </ul>

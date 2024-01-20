@@ -10,10 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable implements CanResetPassword
+class User extends Authenticatable implements CanResetPassword, MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable,Searchable, CanResetPasswordTrait;
+    use HasApiTokens, HasFactory, Notifiable, Searchable, CanResetPasswordTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +25,7 @@ class User extends Authenticatable implements CanResetPassword
         'name',
         'email',
         'password',
-        'level' => 1
+        'level',
     ];
 
     /**
@@ -51,13 +52,21 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->level === 0; // Assuming 0 represents admin role
     }
-    public function toSearchableArray(){
-        return [
-            'name'=>$this->name,
-            'email'=>$this->email,
-            'password'=>$this->password,
-            'level'=>$this->level
-        ];
+    protected static function boot()
+    {
+        parent::boot();
 
+        static::creating(function ($user) {
+            $user->level = $user->level ?? 1;
+        });
+    }
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+            'password' => $this->password,
+            'level' => $this->level
+        ];
     }
 }

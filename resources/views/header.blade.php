@@ -47,6 +47,7 @@
                     <!-- Button trigger modal -->
                     @if (Auth::check())
                         <li class="nav-item dropdown">
+                             @include('sweetalert::alert')
                             <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                                 {{ Auth::user()->name }}
                             </a>

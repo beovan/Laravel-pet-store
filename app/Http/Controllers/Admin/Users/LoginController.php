@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Users;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,8 +17,10 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return view('admin.users.login',
-        ['title' => 'Đăng nhập hệ thống']);
+        return view(
+            'admin.users.login',
+            ['title' => 'Đăng nhập hệ thống']
+        );
     }
 
     public function logout()
@@ -33,49 +36,38 @@ class LoginController extends Controller
     }
     public function store(Request $request)
     {
-    $this->validate($request, [
-        'email' =>'required|email:filter',
-        'password' =>'required'
-    ]);
-    //kiem tra mat khau
-    $credentials = $request->only('email', 'password');
-    if (Auth::attempt($credentials, $request->input('remember'))) {
-
-        // Retrieve the user based on the provided email
-
+        $this->validate($request, [
+            'email' => 'required|email:filter',
+            'password' => 'required'
+        ]);
+        
+        $credentials = $request->only('email', 'password');
+        
+        if (!Auth::attempt($credentials, $request->input('remember'))) {
+            session()->flash('error', 'email hoặc mật khẩu không chính xác');
+            return redirect()->back();
+        }
+        
         $user = User::where('email', $request->email)->first();
-
-        // Check if a user with the provided email exists
+        
         if (!$user) {
             session()->flash('error', 'Email không tồn tại.');
             return redirect()->back();
         }
-        // Verify the provided password against the user's hashed password
-        if (Hash::check($request->password, $user->password)) {
-            // Password is correct, log in the user
-
-            // Authenticate the user (log them in)
-            Auth::login($user);
-
-
-            // Redirect to the appropriate page
-            if ($user->isAdmin()) {
-
-                // Redirect admin to admin dashboard
-                return redirect()->route('admin');
-            } else {
-                $user->level = 1;
-                return  redirect('/');
-
-            }
-        } else {
-            // Password is incorrect
+        
+        if (!Hash::check($request->password, $user->password)) {
             session()->flash('error', 'Mật khẩu không chính xác.');
             return redirect()->back();
         }
-    }
-
-        session()->flash('error', 'email hoặc mật khẩu không chính xác');
-    return redirect()->back();
+        
+        Auth::login($user);
+        
+        if ($user->isAdmin()) {
+            return redirect()->route('admin');
+        }
+        
+        $user->level = 1;
+        Alert::success('Success Title', 'Đăng nhập Thành công');
+        return redirect('/');
     }
 }

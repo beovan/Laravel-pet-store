@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RegisterController extends Controller
 {
@@ -20,30 +21,18 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the form data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
-
-        // Create a new user instance
-        $user = new User();
-
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email'];
-        $user->password = Hash::make($validatedData['password']);
-        $user->level = 1; // Set the 'level' field to 1 for regular users
-        // Save the user to the database
-        $user->save();
-        // Optionally log in the user
+        
+        $validatedData['password'] = Hash::make($validatedData['password']);
+        $validatedData['level'] = 1; // Set the 'level' field to 1 for regular users
+        
+        $user = User::create($validatedData);
         Auth::login($user);
-        if($user->level == 0) {
-        return redirect()->route('admin')->with('success', 'Registration successful');
-
-        }
-        // Redirect to a page or show a success message
-        return redirect('/')->with('success', 'Registration successful');
-
+        Alert::success('Success', 'Đăng kí Thành công');
+        return redirect('/');
     }
 }

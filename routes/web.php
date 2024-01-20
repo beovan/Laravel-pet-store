@@ -33,6 +33,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Auth::routes();
+//change
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //login routes
 Route::get('admin/users/login', [LoginController::class, 'index'])->name('login');
 //chuyển sang trang admin
@@ -166,6 +168,3 @@ Route::post('/add-to-database', [CrawlDataController::class, 'addToDatabase']);
 
 
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
