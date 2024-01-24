@@ -67,7 +67,7 @@ class LoginController extends Controller
         }
         
         $user->level = 1;
-        Alert::success('Success Title', 'Đăng nhập Thành công');
+        Alert::success('Success', 'Đăng nhập Thành công');
         return redirect('/');
     }
 }

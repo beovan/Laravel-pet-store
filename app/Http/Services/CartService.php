@@ -12,6 +12,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use Exception;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -21,11 +22,15 @@ class CartService
     {
         $qty = (int)$request->input('num_product');
         $product_id = (int)$request->input('product_id');
-
         if ($qty <= 0 || $product_id <= 0) {
             Session::flash('error', 'Số lượng hoặc Sản phẩm không chính xác');
             return false;
         }
+        elseif(!Auth::check()){
+            Session::flash('error', 'Cần đăng nhập để mua hàng');
+            return false;
+        }
+
 
         $carts = Session::get('carts');
         if (is_null($carts)) {
@@ -73,14 +78,14 @@ class CartService
         $quantity = (int)$quantity;
 
         if ($quantity <= 0) {
-            Session::flash('error', 'quantity must be greater than 0');
+            Session::flash('error', 'số lượng phải lớn hơn 0');
             $cartData[$productId] = 1;
             return false;
         }
     }
 
     Session::put('carts', $cartData);
-    Session::flash('success', 'Quantity and Product update succesfuly');
+    Session::flash('success', 'Cập nhật số lượng và sản phẩm thành công');
 
     return true;
 }
