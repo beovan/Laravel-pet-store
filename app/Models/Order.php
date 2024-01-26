@@ -16,6 +16,7 @@ class Order extends Model
         'order_number',
         'customer_id',
         'total_amount',
+        'status',
         'order_date'
         // Add other fields as needed
     ];

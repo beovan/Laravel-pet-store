@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
-use App\Models\Order;
 use App\Models\OrderItem;
-use Illuminate\Http\Request;
 use  App\Http\Services\CartService;
+use App\Models\Order;
 
 class CartController extends Controller
 {
@@ -16,7 +15,7 @@ class CartController extends Controller
     public $cart;
     public function __construct(CartService $cart)
     {
-    $this->cart = $cart;
+        $this->cart = $cart;
     }
 
     public function index()
@@ -30,6 +29,7 @@ class CartController extends Controller
     public function show(Customer $customer)
     {
         // $carts = $this->cart->getProductForCart($customer);
+        $order = Order::where('customer_id', $customer->id)->first();
         $orderItems = OrderItem::whereHas('order', function ($query) use ($customer) {
             $query->where('customer_id', $customer->id);
         })->get();
@@ -38,6 +38,7 @@ class CartController extends Controller
             'title' => 'Chi Tiết Đơn Hàng: ' . $customer->name,
             'customer' => $customer,
             'orderItems' => $orderItems,
+            'order' => $order, // Pass the order to the view
         ]);
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('order_number')->unique();
             $table->unsignedBigInteger('customer_id');
             $table->decimal('total_amount', 10, 2);
+            $table->string('status');
             $table->timestamps();
         });
     }

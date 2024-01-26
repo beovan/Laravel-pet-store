@@ -69,7 +69,7 @@ class CrawlDataController extends Controller
 
         // Update these queries based on the actual HTML structure of the product detail page
         $imgNode = $xpath->query('//div[contains(@class, "hidden-sm hidden-xs")]//img[contains(@class, "product-image-feature")]')->item(0);
-        $img = $imgNode ? $imgNode->getAttribute("src") : '';
+        $img = $imgNode ? $imgNode->getAttriphp artisan make:command ScrapeProductsbute("src") : '';
 
         $nameNode = $xpath->query('//div[contains(@class, "product-title")]//h1')->item(0);
         $name = $nameNode ? $nameNode->textContent : '';
@@ -93,21 +93,5 @@ class CrawlDataController extends Controller
             ],
             'products' => $products,
         ]);
-    }
-    public function addToDatabase(Request $request)
-    {
-        $data = $request->all(); // Assuming you are passing the crawled data as POST parameters
-
-        // Assuming $data contains 'image', 'link', and 'text'
-        $product = new Product([
-            'image' => $data['image'],
-            'link' => $data['link'],
-            'text' => $data['text'],
-            // Add other fields as needed
-        ]);
-
-        $product->save();
-
-        return response()->json(['message' => 'Product added to database successfully']);
     }
 }

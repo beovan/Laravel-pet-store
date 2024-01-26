@@ -22,4 +22,8 @@ class Customer extends Model
     {
         return $this->hasMany(Cart::class, 'customer_id', 'id');
     }
+    public function orders()
+{
+    return $this->hasMany(Order::class, 'customer_id', 'id');
+}
 }

@@ -157,6 +157,7 @@ class CartService
         $order->customer_id = $customer_id;
         $order->order_number = $this->generateUniqueOrderNumber(); // Generate a unique order number
         $order->total_amount = 0; // You can calculate this later
+        $order->status = 'pending';
         $order->order_date = now();
         $order->save();
 

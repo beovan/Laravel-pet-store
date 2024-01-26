@@ -3,37 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
-use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Order;
-use App\Models\OrderItem;
 use App\Models\User;
 use  App\Http\Services\CartService;
-
+use App\Http\Services\Order\OrderService;
 
 class UserProfileController extends Controller
 {
     // Show the user profile
-    public function show(Customer $customers)
+
+    protected $cartService;
+    protected $orderService;
+    public function __construct(OrderService $orderService,CartService $cartService)
+    {
+        $this->cartService = $cartService;
+        $this->orderService = $orderService;
+    }
+    public function show()
     {
         $user = auth()->user(); // Get the authenticated user
-        Order::all();
+        $products = $this->cartService->getProduct();
         // Retrieve the user's order history
-        $orders = Order::all();
+        $orders = $this->orderService->show();
+        $customers = Customer::all(); // Retrieve all customers
         return view('profile.show', [
             'title' => 'User Profile',
             'user' => $user,
             'user_id' => $user->id,
             'orders' => $orders,
             'customers' => $customers,
+            'products' => $products
         ]);
     }
 
 
 
-// Show the edit profile form
+
 
 
 // Update the user profile
