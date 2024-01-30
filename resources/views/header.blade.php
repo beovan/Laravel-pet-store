@@ -15,8 +15,8 @@
                 <!-- Menu desktop -->
                 <div class="menu-desktop">
                     <ul class="main-menu">
-                        <li class="active-menu"><a href="/">Trang Chủ</a> </li>
-                        <li class="active-menu"><a href="#">Danh mục</a>
+                        <li><a href="/">Trang Chủ</a> </li>
+                        <li><a href="#">Danh mục</a>
                             <ul class="sub-menu">
                                 {!! $menusHtml !!}
                             </ul>
