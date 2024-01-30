@@ -11,7 +11,7 @@
                 <a href="#" class="logo">
                     <img src="/template/images/icons/1.png" alt="IMG-LOGO">
                 </a>
-
+                <input type="hidden" id="root-route" data-route={{ route('search') }}>
                 <!-- Menu desktop -->
                 <div class="menu-desktop">
                     <ul class="main-menu">
@@ -47,7 +47,7 @@
                     <!-- Button trigger modal -->
                     @if (Auth::check())
                         <li class="nav-item dropdown">
-                             @include('sweetalert::alert')
+                            @include('sweetalert::alert')
                             <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                                 {{ Auth::user()->name }}
                             </a>
@@ -285,6 +285,8 @@
                     <i class="zmdi zmdi-search"></i>
                 </button>
                 <input class="plh3" type="text" name="search" placeholder="Search...">
+                <input type="text" id="searcha" autocomplete="off">
+                <div id="dropdown"></div>
             </form>
         </div>
     </div>

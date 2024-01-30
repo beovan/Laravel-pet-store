@@ -94,4 +94,14 @@ class CrawlDataController extends Controller
             'products' => $products,
         ]);
     }
+    public function search(Request $request)
+    {
+       $query = request()->input('query');
+       $products = Product::where('name', 'like', "%$query%")->paginate(12);
+        // Chuyển đổi dữ liệu thành chuỗi JSON
+        $jsonString = json_encode($products);
+    
+        // Return the JSON string as a response
+        return response()->json($jsonString);
+    }
 }

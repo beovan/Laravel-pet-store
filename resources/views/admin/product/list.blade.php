@@ -1,18 +1,24 @@
 @extends('admin.main')
 
 @section('content')
-    <div class="col-md-8 offset-md-2">
-        <form action="">
-            <div class="input-group">
-                <input type="search" name="q" class="form-control form-control-lg" placeholder="Type your keywords here" value="{{$search_param}}">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-lg btn-default">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
+<div class="col-md-8 offset-md-2">
+    <form action="">
+        <div class="input-group">
+            <input type="search" name="q" class="form-control form-control-lg" placeholder="Type your keywords here" value="{{$search_param}}">
+            <select name="q" class="form-control form-control-lg">
+                <option value="{{$search_param}}">Select product</option>
+                @foreach ($products as $key => $product )
+                <option value={{$product->id}}>{{$product->name}}</option>
+                @endforeach
+            </select>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-lg btn-default">
+                    <i class="fa fa-search"></i>
+                </button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
     <table class="table">
         <thead>
             <tr>

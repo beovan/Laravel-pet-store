@@ -160,6 +160,8 @@ Route::post('/bai-viet/{id}-{slug}.html/add-comments', [CommentService::class, '
 //test crawl
 Route::get('crawl-data', [CrawlDataController::class, 'index']);
 Route::get('/products/{slug}', [CrawlDataController::class, 'detail']);
+//Search
+Route::get('/search', [App\Http\Controllers\CrawlDataController::class, 'search'])->name('search');
 
 
 
