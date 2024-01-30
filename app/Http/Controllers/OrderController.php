@@ -37,4 +37,17 @@ class OrderController extends Controller
             ]);
         }
     }
+    public function update(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'status' => 'required|in:cancelled,processing,delivered,pending',
+        ]);
+
+        $order->status = $validatedData['status'];
+        $order->save();
+
+        return redirect()->back()->with('success', 'Order status updated successfully!');
+    }
 }

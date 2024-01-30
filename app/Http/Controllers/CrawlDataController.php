@@ -69,7 +69,7 @@ class CrawlDataController extends Controller
 
         // Update these queries based on the actual HTML structure of the product detail page
         $imgNode = $xpath->query('//div[contains(@class, "hidden-sm hidden-xs")]//img[contains(@class, "product-image-feature")]')->item(0);
-        $img = $imgNode ? $imgNode->getAttriphp artisan make:command ScrapeProductsbute("src") : '';
+        $img = $imgNode ? $imgNode->getAttribute("src") : '';
 
         $nameNode = $xpath->query('//div[contains(@class, "product-title")]//h1')->item(0);
         $name = $nameNode ? $nameNode->textContent : '';

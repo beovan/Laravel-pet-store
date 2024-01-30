@@ -11,7 +11,8 @@ class OrderService
 {
     public function show()
     {
-        return Order::select(
+         return Order::with('customer', 'orderItems')
+        ->select(
             'order_number',
             'customer_id',
             'total_amount',
@@ -20,16 +21,18 @@ class OrderService
         ->orderbyDesc('id')
         ->get();
     }
-    public function getOrderById($orderId)
-    {
-        try {
-            $order = Order::with('customer', 'orderItems')->findOrFail($orderId);
-            return $order;
-        } catch (\Exception $err) {
-            Log::info($err->getMessage());
-            return null;
-        }
+    public function getOrderByCustomerId($customerId)
+{
+    try {
+        $order = Order::where('customer_id', $customerId
+        )->with('customer', 'orderItems')
+        ->first();
+        return $order;
+    } catch (\Exception $err) {
+        Log::info($err->getMessage());
+        return null;
     }
+}
 
     public function updateOrderStatus(Request $request, $orderId) // Add the Request parameter to the method signature
     {
@@ -38,5 +41,10 @@ class OrderService
         $this->updateOrderStatus($orderId, $status);
 
         return redirect()->back();
+    }
+    public function get()
+    {
+    
+        return Order::orderByDesc('id')->paginate(3);
     }
 }

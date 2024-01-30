@@ -25,8 +25,7 @@ class CartService
         if ($qty <= 0 || $product_id <= 0) {
             Session::flash('error', 'Số lượng hoặc Sản phẩm không chính xác');
             return false;
-        }
-        elseif(!Auth::check()){
+        } elseif (!Auth::check()) {
             Session::flash('error', 'Cần đăng nhập để mua hàng');
             return false;
         }
@@ -64,31 +63,30 @@ class CartService
             ->where('active', 1)
             ->whereIn('id', $productId)
             ->get();
-
     }
 
 
 
     public function update($request)
-{
-    $cartData = $request->input('num_product');
+    {
+        $cartData = $request->input('num_product');
 
-    // Loop through the cart data and check each quantity
-    foreach ($cartData as $productId => $quantity) {
-        $quantity = (int)$quantity;
+        // Loop through the cart data and check each quantity
+        foreach ($cartData as $productId => $quantity) {
+            $quantity = (int)$quantity;
 
-        if ($quantity <= 0) {
-            Session::flash('error', 'số lượng phải lớn hơn 0');
-            $cartData[$productId] = 1;
-            return false;
+            if ($quantity <= 0) {
+                Session::flash('error', 'số lượng phải lớn hơn 0');
+                $cartData[$productId] = 1;
+                return false;
+            }
         }
+
+        Session::put('carts', $cartData);
+        Session::flash('success', 'Cập nhật số lượng và sản phẩm thành công');
+
+        return true;
     }
-
-    Session::put('carts', $cartData);
-    Session::flash('success', 'Cập nhật số lượng và sản phẩm thành công');
-
-    return true;
-}
 
 
     public function remove($id)
@@ -102,7 +100,7 @@ class CartService
 
     public function addCart($request)
     {
-        if (Session::get('carts')){
+        if (Session::get('carts')) {
             DB::beginTransaction();
 
             $carts = Session::get('carts');
@@ -110,14 +108,22 @@ class CartService
                 return false;
             }
             // dd($request->input());
+            $validatedData = $request->validate([
+                'name' => 'required|max:255',
+                'phone' => 'required|max:10',
+                'address' => 'required|max:255',
+                'email' => 'required|email|max:255',
+                'content' => 'nullable|max:500',
+                'user_id' => 'required|exists:users,id',
+            ]);
+            
             $customer = Customer::create([
-                'name' => $request->input('name'),
-                'phone' => $request->input('phone'),
-                'address' => $request->input('address'),
-                'email' => $request->input('email'),
-                'content' => $request->input('content'),
-                'user_id' => $request->input('user_id')
-
+                'name' => $validatedData['name'],
+                'phone' => $validatedData['phone'],
+                'address' => $validatedData['address'],
+                'email' => $validatedData['email'],
+                'content' => $validatedData['content'],
+                'user_id' => $validatedData['user_id']
             ]);
 
 
@@ -136,8 +142,7 @@ class CartService
 
             Session::forget('carts');
             return true;
-        }
-        else{
+        } else {
             DB::rollBack();
             Session::flash('error', 'Đặt Hàng Lỗi, Vui lòng thử lại sau');
             return false;
