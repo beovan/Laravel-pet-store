@@ -22,69 +22,103 @@ function loadMore() {
         },
     });
 }
-// search
-let route = $("#root-route").data("route");
-console.log(route);
-console.log("hello");
+$(document).ready(function () {
+    console.log("document is ready");
+    let route = $("#root-route").data("route");
+    let dataResponse; // Declare dataResponse here
 
-fetch(route)
-    .then((response) => response.json())
-    .then((responseData) => {
-        // Gán dữ liệu lấy được từ API cho biến data
-        data = responseData;
+    fetch(route)
+        .then((response) => response.json())
+        .then((responseData) => {
+            // Assign the data to dataResponse here
+            dataResponse = responseData;
+            console.log("Data received:", dataResponse);
+        })
+        .catch((error) => {
+            console.error("Error fetching data:", error);
+        });
 
-        // Kiểm tra xem dữ liệu đã được gán thành công
-        console.log("Data received:", data);
+    let search = $("#search-input");
+    let typingTimer;
+    let doneTypingInterval = 1000; // Time to wait after user stops typing, in milliseconds
 
-        // Gọi hàm hoặc thực hiện các hành động khác với dữ liệu ở đây
-    })
-    .catch((error) => {
-        console.error("Error fetching data:", error);
+    // When the user types in the search input
+    search.on("input", () => {
+        // Clear the timer if it exists
+        clearTimeout(typingTimer);
+
+        // Start a new timer
+        typingTimer = setTimeout(() => {
+            let searchValue = search.val();
+            let matchingName = [];
+            
+            $("#matching-name-select").remove();
+            // Make sure dataResponse is not undefined
+            dataResponse.data.forEach((item) => {
+                if (
+                    item.name.toLowerCase().includes(searchValue.toLowerCase())
+                ) {
+                    matchingName.push(item.name);
+                }
+            });
+            
+            // Create a new <select> element
+            let selectElement = $("<ul>");
+            let productId = "{{ $product->id }}";
+            let productName = "{{ Str::slug($product->name, '-') }}";
+            let href = '/san-pham/' + productId + '-' + productName + '.html';
+            
+            
+            // Add options to the <select> element
+            matchingName.forEach((name,id) => {
+                let optionElement = $("<li>");
+                let aElement = $("<a>").text(name);
+                aElement.attr("href",'/san-pham/' + (id + 1) + '-' + convertToSlug(name) + '.html');
+                console.log(convertToSlug(name));
+                optionElement.append(aElement);
+                optionElement.attr("value", name);
+                selectElement.append(optionElement);
+            });
+
+            console.log(matchingName);
+            // Set the id for the <select> element
+            selectElement.attr("id", "matching-name-select");
+            // Set the name for the <select> element
+            selectElement.attr("name", "matching-name");
+            // Add the <select> element to the DOM
+            $("#select-search").append(selectElement);
+        }, doneTypingInterval);
     });
-// const dataResponse = fetchData();
-// console.log(dataResponse);
-let search = $("#search-input");
-let typingTimer;
-let doneTypingInterval = 1000; // Thời gian chờ sau khi ngừng nhập, tính bằng mili giây
-
-// Khi người dùng nhập vào ô tìm kiếm
-search.on("input", () => {
-    // Xóa bộ đếm thời gian nếu có
-    clearTimeout(typingTimer);
-
-    // Bắt đầu bộ đếm thời gian mới
-    typingTimer = setTimeout(() => {
-        let searchValue = search.val();
-        let matchingEmails = [];
-        dataResponse.forEach((item) => {
-            if (item.email.toLowerCase().includes(searchValue.toLowerCase())) {
-                matchingEmails.push(item.email);
-            }
-        });
-
-        // Tạo một phần tử <select> mới
-        let selectElement = $("<ul>");
-
-        // Thêm tùy chọn vào phần tử <select>
-        matchingEmails.forEach((email) => {
-            let optionElement = $("<li>");
-            let aElement = $("<a>").text(email);
-            aElement.attr("href", route + "/product/search/" + email);
-            optionElement.append(aElement);
-            optionElement.attr("value", email);
-            selectElement.append(optionElement);
-        });
-
-        // Đặt id cho phần tử <select>
-        selectElement.attr("id", "matching-emails-select");
-
-        // Đặt tên cho phần tử <select>
-        selectElement.attr("name", "matching-emails");
-        console.log(selectElement);
-        // Đưa phần tử <select> vào DOM
-        $("#select-search").append(selectElement);
-    }, doneTypingInterval);
 });
+//convertToSlug
+function convertToSlug(slug) {
+     // Convert to lowercase
+     slug = slug.toLowerCase();
 
-
-
+     // Replace accented characters
+     slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
+     slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
+     slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
+     slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
+     slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
+     slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
+     slug = slug.replace(/đ/gi, 'd');
+ 
+     // Remove special characters
+     slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+ 
+     // Replace spaces with hyphens
+     slug = slug.replace(/ /gi, "-");
+ 
+     // Replace multiple hyphens with a single hyphen
+     slug = slug.replace(/\-\-\-\-\-/gi, '-');
+     slug = slug.replace(/\-\-\-\-/gi, '-');
+     slug = slug.replace(/\-\-\-/gi, '-');
+     slug = slug.replace(/\-\-/gi, '-');
+ 
+     // Remove hyphens at the start and end
+     slug = '@' + slug + '@';
+     slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+ 
+     return slug;
+}

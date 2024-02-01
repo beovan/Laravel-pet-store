@@ -11,7 +11,6 @@
                 <a href="#" class="logo">
                     <img src="/template/images/icons/1.png" alt="IMG-LOGO">
                 </a>
-                <input type="hidden" id="root-route" data-route={{ route('search') }}>
                 <!-- Menu desktop -->
                 <div class="menu-desktop">
                     <ul class="main-menu">
@@ -279,14 +278,14 @@
             <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
                 <img src="/template/images/icons/icon-close2.png" alt="CLOSE">
             </button>
+            <input type="hidden" id="root-route" data-route={{ route('search') }}>
 
             <form class="wrap-search-header flex-w p-l-15">
                 <button class="flex-c-m trans-04">
                     <i class="zmdi zmdi-search"></i>
                 </button>
-                <input class="plh3" type="text" name="search" placeholder="Search...">
-                <input type="text" id="searcha" autocomplete="off">
-                <div id="dropdown"></div>
+                <input id="search-input" class="plh3" type="text" name="search" placeholder="Search...">
+                <div id="select-search"></div>
             </form>
         </div>
     </div>
