@@ -9,7 +9,7 @@
             <li>Địa chỉ: <strong>{{ $customer->address }}</strong></li>
             <li>Email: <strong>{{ $customer->email }}</strong></li>
             <li>Ghi chú: <strong>{{ $customer->content }}</strong></li>
-            <li>Trạng thái đơn hàng: <strong> <a href="#" class="btn btn-primary btn-sm">
+            <li>Trạng thái đơn hàng: <strong> <a href="#">
                         @if ($order->status === 'cancelled')
                             <p> Đơn hàng đã bị huỷ</p>
                         @elseif($order->status === 'processing')
@@ -39,7 +39,7 @@
                     <th class="column-4">Quantity</th>
                     <th class="column-5">Total</th>
                 </tr>
-                 @foreach ($orderItems as $orderItem)
+                @foreach ($orderItems as $orderItem)
                     @php
                         $price = $orderItem->price * $orderItem->quantity;
                         $total += $price;
@@ -71,24 +71,17 @@
                 <div class="col-md-6 text-right">
                     <div class="row">
                         @if (Auth::user()->level == 0)
-                            <form action="/update" method="POST">
+                            <form action="{{ route('update', ['order' => $order->id]) }}" method="POST">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" name="status" value="cancelled">
-                                <button type="submit" class="btn btn-primary">Cancel</button>
-                            </form>
-                            <form action="" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="status" value="processing">
-                                <button type="submit" class="btn btn-primary">Processing</button>
-                            </form>
-                        @elseif(Auth::user()->level == 0 && $order->status == 'processing')
-                            <form action="{{ route('orders.update', $order->id) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="status" value="delivered">
-                                <button type="submit" class="btn btn-primary">Delivered</button>
+                                <select name="status" class="form-control">
+                                    <option value="cancelled">Huỷ đơn hàng</option>
+                                    <option value="processing">Tiến hành giao hàng</option>
+                                    @if ($order->status == 'processing')
+                                        <option value="delivered">Đã giao hàng</option>
+                                    @endif
+                                </select>
+                                <button type="submit" class="btn btn-primary">Cập nhật</button>
                             </form>
                         @endif
                     </div>

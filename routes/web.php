@@ -2,13 +2,13 @@
 
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\admin\PostController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\Users\LoginController;
 use App\Http\Controllers\Admin\Users\RegisterController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\Users\ForgotPasswordController;
 use App\Http\Controllers\CrawlDataController;
@@ -118,9 +118,11 @@ Route::middleware(['auth'])->group(function () {
         #Upload
         Route::post('upload/services', [\App\Http\Controllers\Admin\UploadController::class, 'store']);
         #Order
-        Route::get('customers', [\App\Http\Controllers\Admin\CartController::class, 'index']);
-        Route::get('customers/view/{customer}', [\App\Http\Controllers\Admin\CartController::class, 'show']);
-        Route::put('customers/view/{customer}', [\App\Http\Controllers\Admin\CartController::class, 'update']);
+        Route::prefix('orders')->group(function () {
+            Route::get('list', [OrderController::class, 'index']);
+            Route::get('detail/{customer}', [OrderController::class, 'show']);
+            Route::put('detail/{order}', [OrderController::class, 'update'])->name('update');
+        });
     });
 });
 
@@ -137,15 +139,10 @@ Route::post('update-cart', [App\Http\Controllers\CartController::class, 'update'
 Route::get('carts/delete/{id}', [App\Http\Controllers\CartController::class, 'remove']);
 Route::post('carts', [App\Http\Controllers\CartController::class, 'addCart']);
 
-//order
-// order history
-Route::get('profile/orders', [OrderController::class, 'index'])->name('orders.index');
-Route::get('/profile/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-
 // contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
-// profile
+// profile(order history)
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');
     Route::post('/profile', [UserProfileController::class, 'update']);

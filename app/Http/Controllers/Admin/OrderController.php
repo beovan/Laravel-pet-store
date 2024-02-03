@@ -5,28 +5,26 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\OrderItem;
-use  App\Http\Services\CartService;
 use App\Http\Services\Order\OrderService;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
-class CartController extends Controller
+class OrderController extends Controller
 {
 
 
-    public $cart;
     public $order;
-    public function __construct(CartService $cart,OrderService $order)
+    public function __construct(OrderService $order)
     {
-        $this->cart = $cart;
         $this->order = $order;
     }
 
     public function index()
     {
-        return view('admin.carts.customer', [
+        $customers = $this->order->getCustomer();
+        return view('admin.orders.list', [
             'title' => 'Danh Sách Đơn Đặt Hàng',
-            'customers' => $this->cart->getCustomer()
+            'customers' => $customers,
         ]);
     }
 
@@ -38,8 +36,7 @@ class CartController extends Controller
         $orderItems = OrderItem::whereHas('order', function ($query) use ($customer) {
             $query->where('customer_id', $customer->id);
         })->paginate(3);
-
-        return view('admin.carts.detail', [
+        return view('admin.orders.detail', [
             'title' => 'Chi Tiết Đơn Hàng: ' . $customer->name,
             'customer' => $customer,
             'orderItems' => $orderItems,
@@ -48,15 +45,21 @@ class CartController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $order = Order::findOrFail($id);
+        $status = $request->input('status');
 
-        $validatedData = $request->validate([
-            'status' => 'required|in:cancelled,processing,delivered,pending',
-        ]);
+        // Validate the status
+        if (!in_array($status, ['cancelled', 'processing', 'delivered'])) {
+            return redirect()->back()->with('error', 'Invalid status.');
+        }
 
-        $order->status = $validatedData['status'];
-        $order->save();
+        // Use the OrderService to update the order status
+        $orderService = new OrderService(); // Assuming OrderService is in the same namespace
+        $updateStatus = $orderService->updateOrderStatus($request, $id);
 
-        return redirect()->back()->with('success', 'Order status updated successfully!');
+        if ($updateStatus) {
+            return redirect()->back()->with('success', 'Trạng thái đơn hàng được cập nhật thành công!');
+        } else {
+            return redirect()->back()->with('error', 'Không cập nhật được trạng thái đơn hàng!');
+        }
     }
 }

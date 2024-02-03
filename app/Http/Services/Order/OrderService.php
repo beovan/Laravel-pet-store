@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Order;
 
+use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -11,40 +12,55 @@ class OrderService
 {
     public function show()
     {
-         return Order::with('customer', 'orderItems')
-        ->select(
-            'order_number',
-            'customer_id',
-            'total_amount',
-            'status',
-        )
-        ->orderbyDesc('id')
-        ->get();
+        return Order::with('customer', 'orderItems')
+            ->select(
+                'order_number',
+                'customer_id',
+                'total_amount',
+                'status',
+            )
+            ->orderbyDesc('id')
+            ->paginate(3);
     }
     public function getOrderByCustomerId($customerId)
-{
-    try {
-        $order = Order::where('customer_id', $customerId
-        )->with('customer', 'orderItems')
-        ->first();
-        return $order;
-    } catch (\Exception $err) {
-        Log::info($err->getMessage());
-        return null;
-    }
-}
-
-    public function updateOrderStatus(Request $request, $orderId) // Add the Request parameter to the method signature
     {
-        $status = $request->input('status');
-        // ...
-        $this->updateOrderStatus($orderId, $status);
+        try {
+            $order = Order::where('customer_id', $customerId)
+                ->with('customer', 'orderItems')
+                ->first();
 
-        return redirect()->back();
+            Log::info('Order retrieved: ', ['order' => $order]);
+            return $order;
+        } catch (\Exception $err) {
+            Log::info($err->getMessage());
+            return null;
+        }
     }
-    public function get()
+
+    public function updateOrderStatus(Request $request, $orderId)
     {
-    
-        return Order::orderByDesc('id')->paginate(3);
+        // Validate the request data
+        $request->validate([
+            'status' => 'required|in:cancelled,processing,delivered',
+        ]);
+
+        // Find the order by its ID
+        $order = Order::find($orderId);
+
+        // Check if order exists
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found.');
+        }
+
+        // Update the order status
+        $order->status = $request->input('status');
+        $order->save();
+
+        return redirect()->back()->with('success', 'Order status updated successfully.');
+    }
+
+    public function getCustomer()
+    {
+        return Customer::orderByDesc('id')->paginate(5);
     }
 }

@@ -39,14 +39,10 @@
                     <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
                         <i class="zmdi zmdi-search"></i>
                     </div>
-
-
-
-
                     <!-- Button trigger modal -->
                     @if (Auth::check())
                         <li class="nav-item dropdown">
-                            @include('sweetalert::alert')
+                            
                             <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                                 {{ Auth::user()->name }}
                             </a>
@@ -69,6 +65,7 @@
 
                             </div>
                         </li>
+                        @include('sweetalert::alert')
                     @else
                         <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 ">
                             <button type="button" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11"

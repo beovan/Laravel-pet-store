@@ -76,10 +76,8 @@
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
-                               @include('profile.order')
-
                                 @include('profile.edit')
-
+                                @include('profile.order')
                             </div>
 
                         </div>

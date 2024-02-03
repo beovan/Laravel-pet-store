@@ -205,11 +205,7 @@ class CartService
 
 
 
-    public function getCustomer()
-    {
-        return Customer::orderByDesc('id')->paginate(15);
-    }
-
+ 
     protected function calculateTotalAmount($carts)
     {
         $totalAmount = 0;

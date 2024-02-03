@@ -11,7 +11,7 @@
                 <div>
                     <i class="fas fa-envelope bg-primary"></i>
                     <div class="timeline-item">
-                        <span class="time"><i class="far fa-clock"></i> 12:05</span>
+                        <span class="time"><i class="far fa-clock"></i> {{ $order->created_at ? $order->created_at->format('H:i') : 'N/A' }}</span>
                         <h3 class="timeline-header"><a href="#">Thông tin đơn hàng</a></h3>
                         <div class="timeline-body">
                             <!-- Display order-related information here -->
@@ -23,15 +23,14 @@
                                             @if ($order->status === 'cancelled')
                                                 <p>Huỷ đơn hàng</p>
                                             @elseif($order->status === 'processing')
-                                                <p>Bắt đầu giao hàngg</p>
+                                                <p>Bắt đầu giao hàng</p>
                                             @elseif($order->status === 'delivered')
                                                 <p> Đã được giao hàng</p>
                                             @elseif ($order->status === 'pending')
-                                                <p> xác nhận đơn hàng</p>
+                                                <p>Chờ xác nhận đơn hàng</p>
                                             @else
                                                 <p>Unknown</p>
                                             @endif
-            
                                         </a>
                                     </div>
                                 </li>
@@ -43,5 +42,10 @@
                 </div>
             @endif
         @endforeach
+        <div>
+            <i class="fas fa-clock bg-gray">
+                {{$orders->links()}}
+            </i>
+        </div>
     </div>
 </div>
