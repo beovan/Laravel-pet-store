@@ -6,8 +6,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\User as User;
-use http\Client\Curl\User as HttpClientUser;
-use Illuminate\Http\Request;
 use App\Models\Product;
 
 
@@ -24,5 +22,11 @@ class MainController extends Controller
             "users" => $users,
             "products" => $products
         ]);
+    }
+    function getSalesData() {
+        // get data from database
+        $data = Order::all();
+
+        return response()->json($data);
     }
 }

@@ -123,6 +123,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('detail/{customer}', [OrderController::class, 'show']);
             Route::put('detail/{order}', [OrderController::class, 'update'])->name('update');
         });
+        #data
+        Route::get('getSalesData', [MainController::class, 'getSalesData']);
     });
 });
 

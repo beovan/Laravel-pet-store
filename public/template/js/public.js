@@ -51,41 +51,41 @@ $(document).ready(function () {
         typingTimer = setTimeout(() => {
             let searchValue = search.val();
             let matchingName = [];
-            
+            let count = 0;
             $("#matching-name-select").remove();
-            // Make sure dataResponse is not undefined
-            dataResponse.data.forEach((item) => {
-                if (
-                    item.name.toLowerCase().includes(searchValue.toLowerCase())
-                ) {
+            dataResponse.forEach((item) => {
+                if (count >= 5) {
+                    return;
+                }
+                if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
                     matchingName.push(item.name);
+                    count++;
                 }
             });
             
             // Create a new <select> element
             let selectElement = $("<ul>");
-            let productId = "{{ $product->id }}";
-            let productName = "{{ Str::slug($product->name, '-') }}";
-            let href = '/san-pham/' + productId + '-' + productName + '.html';
-            
-            
             // Add options to the <select> element
             matchingName.forEach((name,id) => {
                 let optionElement = $("<li>");
                 let aElement = $("<a>").text(name);
                 aElement.attr("href",'/san-pham/' + (id + 1) + '-' + convertToSlug(name) + '.html');
-                console.log(convertToSlug(name));
+                aElement.css({
+                    'color': 'black'
+                });
                 optionElement.append(aElement);
                 optionElement.attr("value", name);
                 selectElement.append(optionElement);
             });
 
-            console.log(matchingName);
             // Set the id for the <select> element
             selectElement.attr("id", "matching-name-select");
             // Set the name for the <select> element
             selectElement.attr("name", "matching-name");
             // Add the <select> element to the DOM
+            $('#select-search').css({
+                'background-color': 'white',
+            });
             $("#select-search").append(selectElement);
         }, doneTypingInterval);
     });
@@ -122,3 +122,27 @@ function convertToSlug(slug) {
  
      return slug;
 }
+// select-search css
+$(document).ready(function() {
+    $('#select-search').css({
+        'position': 'relative',
+        'display': 'inline-block'
+    });
+
+    $('#select-search ul').css({
+        'display': 'none',
+        'position': 'absolute',
+        'background-color': '#f9f9f9',
+        'min-width': '160px',
+        'box-shadow': '0px 8px 16px 0px rgba(0,0,0,0.2)',
+        'padding': '12px 16px',
+        'z-index': '1'
+    });
+
+    $('#select-search ul li a').css({
+        'color': 'black',
+        'padding': '12px 16px',
+        'text-decoration': 'none',
+        'display': 'block'
+    });
+});

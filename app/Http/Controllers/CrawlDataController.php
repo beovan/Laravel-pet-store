@@ -98,10 +98,7 @@ class CrawlDataController extends Controller
     {
        $query = $request->input('query');
         // Lấy dữ liệu từ database
-       $products = Product::where('name', 'like', "%$query%")->paginate(15);
-        // Chuyển đổi dữ liệu thành chuỗi JSON
-        $jsonString = json_encode($products);
-        
+       $products = Product::where('name', 'like', "%$query%")->get();
         // Return the JSON string as a response
         return response()->json($products);
     }
