@@ -33,4 +33,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/template/admin/dist/js/pages/dashboard.js"></script>
 
+
+<script src="/template/admin/js/main.js"></script>
+
 @yield('footer')

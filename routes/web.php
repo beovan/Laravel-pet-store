@@ -41,7 +41,6 @@ Route::get('admin/users/login', [LoginController::class, 'index'])->name('login'
 Route::post('admin/users/login/store', [LoginController::class, 'store']);
 // Display the registration form
 Route::get('admin/users/register', [RegisterController::class, 'index'])->name('register.index');
-
 // Process the registration form
 Route::post('admin/users/register/store', [RegisterController::class, 'store'])->name('register.store');
 
