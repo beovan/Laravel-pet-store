@@ -1,7 +1,7 @@
 @extends('admin.main')
 
 @section('content')
-
+<input type="hidden" id="root-route" data-route={{ route('getSalesData') }}>
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">

@@ -37,7 +37,6 @@ $(document).ready(function () {
         .catch((error) => {
             console.error("Error fetching data:", error);
         });
-
     let search = $("#search-input");
     let typingTimer;
     let doneTypingInterval = 1000; // Time to wait after user stops typing, in milliseconds
@@ -57,6 +56,7 @@ $(document).ready(function () {
                 if (count >= 5) {
                     return;
                 }
+
                 if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
                     matchingName.push(item.name);
                     count++;
