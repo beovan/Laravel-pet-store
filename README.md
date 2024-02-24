@@ -9,7 +9,7 @@
 ### Cài đặt và chạy NPM
 
 1. Cài đặt các package JavaScript: `npm install`
-2. Chạy npm run 
+2. Chạy: `npm run` 
 
 ### Cài đặt XAMPP và kết nối database 
 
